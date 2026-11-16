@@ -17,23 +17,28 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Fetch published site
+      - name: Mirror published site
         run: |
           set -e
-          curl -fsSL https://starline-arcade.surge.sh/index.html -o index.html
-          mkdir -p assets
-          for f in hero-wallpaper.jpg hero-wallpaper-sm.jpg player-girl.png leafall-icon.png; do
-            curl -fsSL "https://starline-arcade.surge.sh/assets/$f" -o "assets/$f"
-            ls -l "assets/$f"
-          done
+          rm -rf _mirror
+          mkdir -p _mirror
+          wget -q -r -np -nH --cut-dirs=1 -e robots=off \
+            --reject 'robots.txt,*://*?*' \
+            -P _mirror https://starline-arcade.surge.sh/
+          find _mirror -type f -printf '%P\t%s\n' | sort
+          test -s _mirror/index.html
+
+      - name: Sync into repo
+        run: |
+          rsync -a --delete --exclude='.git' --exclude='.github' --exclude='_mirror' --exclude='.sync-stamp' _mirror/ ./
+          rm -rf _mirror
           ls -l index.html
-          grep -c LEAFALL index.html || true
 
       - name: Commit if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A index.html assets
+          git add -A
           git diff --cached --quiet && echo "no change" && exit 0
-          git commit -m "site: sync index.html + assets"
+          git commit -m "site: sync published site"
           git push
