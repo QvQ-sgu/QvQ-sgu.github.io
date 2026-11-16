@@ -20,19 +20,35 @@ jobs:
       - name: Mirror published site
         run: |
           set -e
+          BASE=https://starline-arcade.surge.sh
           rm -rf _mirror
-          mkdir -p _mirror
-          wget -q -r -np -nH --cut-dirs=1 -e robots=off \
-            --reject 'robots.txt,*://*?*' \
-            -P _mirror https://starline-arcade.surge.sh/
+          mkdir -p _mirror/assets
+          for p in index.html admin.html board.html howto.html; do
+            wget -q -O "_mirror/$p" "$BASE/$p"
+          done
+          # 逐轮抓取 HTML/JS/CSS 里引用的 assets，直到不再出现新引用
+          for round in 1 2 3; do
+            find _mirror -type f \( -name '*.html' -o -name '*.js' -o -name '*.css' \) -print0 \
+              | xargs -0 grep -hoE 'assets/[A-Za-z0-9._-]+' | sort -u > /tmp/refs.txt || true
+            while read -r a; do
+              [ -z "$a" ] && continue
+              if [ ! -s "_mirror/$a" ]; then
+                mkdir -p "_mirror/$(dirname "$a")"
+                wget -q -O "_mirror/$a" "$BASE/$a" || true
+              fi
+            done < /tmp/refs.txt
+          done
+          # 清掉空文件（抓取失败产生的）
+          find _mirror -type f -empty -print -delete
           find _mirror -type f -printf '%P\t%s\n' | sort
           test -s _mirror/index.html
+          test -s _mirror/assets/site.css
 
       - name: Sync into repo
         run: |
           rsync -a --delete --exclude='.git' --exclude='.github' --exclude='_mirror' --exclude='.sync-stamp' _mirror/ ./
           rm -rf _mirror
-          ls -l index.html
+          ls -l index.html assets | head
 
       - name: Commit if changed
         run: |
