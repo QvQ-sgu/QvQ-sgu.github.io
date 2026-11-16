@@ -1,0 +1,33 @@
+name: Mirror STARLINE site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch published html
+        run: |
+          curl -fsSL https://starline-arcade.surge.sh -o index.html
+          ls -l index.html
+          grep -c STARLINE index.html
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet && echo "no change" && exit 0
+          git commit -m "site: sync index.html"
+          git push
