@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>排行榜 · LEAFALL 落叶秋游</title>
+<meta name="description" content="LEAFALL 落叶秋游本机排行榜与统计，成绩只存在你自己的浏览器里。" />
+<meta name="theme-color" content="#fdf4df" />
+<link rel="preconnect" href="https://miaoda.feishu.cn">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Archivo:wght@500;700;900&amp;display=swap">
+<link rel="icon" type="image/png" href="assets/leafall-icon.png" />
+<link rel="stylesheet" href="assets/site.css" />
+</head>
+<body class="has-tabbar page-board">
+<div class="bg-layer"></div>
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="brand-mark"><img src="assets/leafall-icon.png" alt="LEAFALL 标志" /></span>
+    <span class="brand-text">
+      <b id="brandName">LEAFALL</b>
+      <i id="brandCn">落叶秋游</i>
+    </span>
+  </a>
+  <nav class="nav">
+    <a href="index.html">开始游戏</a>
+    <a href="howto.html">玩法</a>
+    <a href="board.html">排行榜</a>
+    <a href="admin.html">配置后台</a>
+  </nav>
+  <div class="top-actions">
+    <button class="icon-btn" id="soundBtn" aria-label="音效开关" title="音效开关">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M4 9v6h3l5 4V5l-5 4H4z" />
+        <path id="soundWave" d="M16 9c1.5 1.5 1.5 4.5 0 6M19 6c3 3 3 9 0 12" />
+      </svg>
+    </button>
+  </div>
+</header>
+
+  
+<main>
+<section id="board">
+    <div class="section-head">
+      <h2>排行榜</h2>
+      <span>成绩只存在你自己浏览器里</span>
+      <div class="line"></div>
+    </div>
+    <div class="board-wrap">
+      <div class="board">
+        <table>
+          <thead>
+            <tr>
+              <th class="rank">#</th>
+              <th>玩家</th>
+              <th class="num">分数</th>
+              <th class="num">关卡</th>
+              <th class="num">用时</th>
+              <th>难度</th>
+            </tr>
+          </thead>
+          <tbody id="boardBody">
+            <tr class="empty-row"><td colspan="6">还没人上榜，打完一局来留个名。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="board-aside">
+        <h3>你的记录</h3>
+        <p>不联网也不上传，都存在你这台设备上。换台电脑就得从头来。</p>
+        <div class="stat-line"><span>最高分</span><b id="statBest">0</b></div>
+        <div class="stat-line"><span>最远关卡</span><b id="statLevel">—</b></div>
+        <div class="stat-line"><span>总局数</span><b id="statRuns">0</b></div>
+        <div class="stat-line"><span>总击落</span><b id="statKills">0</b></div>
+        <button class="btn small" id="clearBoard" style="margin-top:14px;width:100%;justify-content:center">清空本机记录</button>
+      </div>
+    </div>
+  </section>
+
+  
+</main>
+<footer>
+    <span id="footerText">LEAFALL · 纯前端街机 · 无后端依赖</span>
+    <span>不用登录 · 没有广告 · 打开就玩</span>
+  </footer>
+
+  <!-- ===== 视图：配置后台 ===== -->
+  
+<nav class="tabbar" aria-label="主导航"><a class="tab" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12a4 4 0 0 1 4 4v1a3 3 0 0 1-5.2 2L15 13.5H9l-1.8 1.5A3 3 0 0 1 2 13v-1a4 4 0 0 1 4-4Z"/><path d="M7.5 10.5v3M6 12h3"/></svg><span>游戏</span></a><a class="tab" href="howto.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v16H6.5A2.5 2.5 0 0 0 4 21.5Z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H13v16h4.5a2.5 2.5 0 0 1 2.5 2.5Z"/></svg><span>玩法</span></a><a class="tab active" href="board.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v3a6 6 0 0 1-12 0Z"/><path d="M6 6H3v2a4 4 0 0 0 3.5 4M18 6h3v2a4 4 0 0 1-3.5 4"/><path d="M12 13v4M8 20h8M9 17h6"/></svg><span>排行</span></a><a class="tab" href="admin.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v2.6M12 18.9v2.6M4.3 7l2.2 1.3M17.5 15.7l2.2 1.3M4.3 17l2.2-1.3M17.5 8.3l2.2-1.3"/></svg><span>设置</span></a></nav>
+<script src="assets/tabbar.js"></script>
+<script src="assets/safe-dom.js"></script>
+<script src="assets/core.js"></script>
+<script src="assets/ui.js"></script>
+
+</body>
+</html>
