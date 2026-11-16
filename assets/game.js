@@ -354,9 +354,9 @@
       // 起跳回弹
       p.hop = Math.max(0, p.hop - dt * 3.4);
 
-      // 开火（眩晕时停火）
+      // 开火（眩晕时停火；用 >0 判断，避免 undefined 导致永远不开火）
       p.fireCd -= dt;
-      if (p.fireCd <= 0 && this.debuffs.stun <= 0) {
+      if (p.fireCd <= 0 && !(this.debuffs.stun > 0)) {
         this.playerFire();
         const wcd = this.weapon ? this.weapon.cdMul : 1;
         const boostCd = this.fireBoostT > 0 ? 0.68 : 1;
