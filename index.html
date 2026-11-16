@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>LEAFALL · 落叶秋游 — 纵版弹幕射击</title>
-<meta name="description" content="LEAFALL 落叶秋游：五关纵版弹幕射击，四种秋日小怪、南瓜车 BOSS、护罩与布偶升级、本地排行榜。纯前端街机，打开即玩。" />
+<title>LEAFALL 落叶秋游 · 一个秋日弹幕小游戏</title>
+<meta name="description" content="自己写的一个秋日弹幕小游戏：五关，六种小怪，最后一辆南瓜车。打开网页就能玩，成绩存在你自己浏览器里。" />
 <meta name="theme-color" content="#fdf4df" />
 <link rel="preconnect" href="https://miaoda.feishu.cn">
 <link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Archivo:wght@500;700;900&amp;display=swap">
@@ -504,7 +504,7 @@ h1 .h1-cn {
 /* 技能条 */
 .skillbar {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 7px;
   padding: 4px 11px 6px;
 }
@@ -1228,21 +1228,21 @@ footer {
 </header>
 
   <div class="hero-photo">
-    <img src="assets/hero-wallpaper.jpg" alt="秋日花园里的金发少女：草帽缀满雏菊，坐在开满白花草地上" />
+    <img src="assets/hero-wallpaper.jpg" alt="秋日花园里戴草帽的少女" />
   </div>
 
 <main>
   <section class="hero" id="play">
     <div class="hero-copy">
-      <div class="kicker"><span class="dot"></span><span id="kickerText">纵版弹幕 ／ 五段秋游 ／ 自动投页</span></div>
+      <div class="kicker"><span class="dot"></span><span id="kickerText">一个关于秋天的弹幕小游戏</span></div>
       <h1 id="heroTitle">LEAFALL<span class="h1-cn" id="heroTitleCn">落叶秋游</span></h1>
-      <p class="tagline" id="tagline">一句话：躲子弹，打小怪，捡秋果。</p>
+      <p class="tagline" id="tagline">躲弹幕，打小怪，捡秋果。就这些。</p>
 
       <div class="meta-row">
         <div><b>5</b><span>关卡</span></div>
-        <div><b>6</b><span>秋日小怪</span></div>
+        <div><b>8</b><span>种小怪</span></div>
         <div><b>1</b><span>南瓜车 BOSS</span></div>
-        <div><b id="metaBest">—</b><span>你的最高分</span></div>
+        <div><b id="metaBest">—</b><span>最高分</span></div>
       </div>
 
       <div class="hero-actions">
@@ -1251,7 +1251,7 @@ footer {
         <a class="btn ghost" href="#howto">怎么玩</a>
       </div>
 
-      <div class="announce" id="announce"><em>公告</em><span>v1.3 秋游版：局外金币 + 小卖部换武器，新增乌鸦/稻草人、侧身闪避与全屏。</span></div>
+      <div class="announce" id="announce"><em>公告</em><span>v1.4：新增松鼠、会炸的刺栗，还有秋收铃和热可可。小心刺栗碎裂时的弹幕！</span></div>
 
       <div class="diff-row">
         <span>难度</span>
@@ -1261,12 +1261,12 @@ footer {
           <button data-diff="hard">困难</button>
           <button data-diff="nightmare">噩梦</button>
         </div>
-        <span id="diffHint">普通：标准弹速与血量</span>
+        <span id="diffHint">普通：正常难度，一条命五格血</span>
       </div>
 
       <div class="mission-log">
         <div class="mission-head">
-          <span>MISSION LOG / 秋游路线</span>
+          <span>秋游路线</span>
           <span id="missionProgress">0 / 5 已通关</span>
         </div>
         <ol id="missionList"></ol>
@@ -1305,24 +1305,27 @@ footer {
       </div>
 
       <div class="skillbar" id="skillBar">
-        <button class="skill" data-skill="bomb" data-key="J" title="丢出一片枫叶，落地炸开一圈（J）">
+        <button class="skill" data-skill="bomb" data-key="J" title="丢一片枫叶出去，落地炸开一圈（J）">
           <span class="sname">落叶爆弹</span><span class="scd">J · 就绪</span>
         </button>
-        <button class="skill" data-skill="storm" data-key="K" title="纸页风暴：清空敌弹并打全场（K）">
+        <button class="skill" data-skill="storm" data-key="K" title="纸页风暴：清掉满屏子弹，顺便全场打一遍（K）">
           <span class="sname">纸页风暴</span><span class="scd">K · 就绪</span>
         </button>
-        <button class="skill" data-skill="slow" data-key="L" title="布偶定格：敌机与弹幕减速 4 秒（L）">
+        <button class="skill" data-skill="slow" data-key="L" title="布偶定格：让怪和子弹都慢下来几秒（L）">
           <span class="sname">布偶定格</span><span class="scd">L · 就绪</span>
         </button>
-        <button class="skill" data-skill="dash" data-key="Shift" title="侧身闪避：朝当前方向冲一小段，冲刺瞬间无敌（Shift）">
+        <button class="skill" data-skill="bell" data-key="I" title="秋收铃：把满屏秋果吸过来、拾取范围变大，还回一格血（I）">
+          <span class="sname">秋收铃</span><span class="scd">I · 就绪</span>
+        </button>
+        <button class="skill" data-skill="dash" data-key="Shift" title="侧身闪避：朝你走的方向冲一下，冲的那瞬间打不着你（Shift）">
           <span class="sname">侧身闪避</span><span class="scd">Shift · 就绪</span>
         </button>
       </div>
 
       <div class="cabinet-foot">
-        <span id="footHint">拖动小女孩 / WASD 移动 · 自动投页</span>
+        <span id="footHint">拖动小人 / WASD 移动 · 自动开火</span>
         <span class="spacer"></span>
-        <button id="keysBtn" title="更改移动与技能按键">改键</button>
+        <button id="keysBtn" title="改移动和技能的按键">改键</button>
         <button id="fullBtn" title="全屏游戏">全屏</button>
         <button id="restartBtn">重新开局</button>
       </div>
@@ -1335,7 +1338,7 @@ footer {
         <h3>按键设置</h3>
         <button id="keysClose">关闭</button>
       </div>
-      <p class="keys-tip">点一行，再按下你想用的键。方向键固定可用；设置只保存在这台设备上。</p>
+      <p class="keys-tip">点一行，然后按你想用的键。方向键一直能用，设置只存在你这台机器上。</p>
       <div class="keys-grid" id="keysGrid"></div>
       <div class="keys-foot">
         <span class="msg" id="keysMsg"></span>
@@ -1347,10 +1350,10 @@ footer {
   <div class="keys-modal" id="shopModal">
     <div class="keys-card shop-card">
       <div class="keys-head">
-        <h3>秋游小卖部</h3>
+        <h3>小卖部</h3>
         <button id="shopClose">关闭</button>
       </div>
-      <p class="keys-tip">金币局外累积：每局按分数和击落结算，攒够了就来换武器。买断永久有效，开局前随便换。</p>
+      <p class="keys-tip">金币打完一局按分数和击落数结算，攒够了来换武器。买一次永久能用，开局前随时换。</p>
       <div class="shop-balance">当前金币 <b id="shopCoins">0</b></div>
       <div class="shop-grid" id="shopGrid"></div>
       <div class="keys-foot"><span class="msg" id="shopMsg"></span></div>
@@ -1360,34 +1363,34 @@ footer {
   <section id="howto">
     <div class="section-head">
       <h2>怎么打</h2>
-      <span>五条能让你多活 30 秒的规则</span>
+      <span>几条能让你少死几次的小窍门</span>
       <div class="line"></div>
     </div>
     <div class="cards">
       <div class="card">
-        <span class="idx">命中判定</span>
-        <h3>你的判定点只有 9 像素</h3>
-        <p>小女孩看着有 40 像素宽，真正会被打中的只有中间那个小核心。贴着弹幕缝隙走，别怕“擦弹”。</p>
+        <span class="idx">01 / 判定点</span>
+        <h3>真能打中你的只有一个小点</h3>
+        <p>小人看着挺大，其实只有中间那么一丁点会吃弹。贴着弹幕缝走，擦过去不会被打。</p>
       </div>
       <div class="card">
-        <span class="idx">护罩</span>
-        <h3>先打盾，再打血</h3>
-        <p>护罩层吃伤害不掉血，脱战 8 秒自动回一层。血量 5 格，掉完就结束，没有复活。</p>
+        <span class="idx">02 / 护盾</span>
+        <h3>盾先扛，血后掉</h3>
+        <p>有盾的时候先掉盾不掉血，一会儿没被打就自己回一层。血就五格，掉光这局就结束，没复活。</p>
       </div>
       <div class="card">
-        <span class="idx">闪避</span>
-        <h3>Shift 冲一步，穿弹靠它</h3>
-        <p>侧身闪避朝当前方向冲刺 0.26 秒，冲刺瞬间无敌，冷却 2.4 秒。弹幕成墙时别硬挤：先往侧后撤，再斜着切进缝隙。</p>
+        <span class="idx">03 / 闪避</span>
+        <h3>按 Shift 能闪一下</h3>
+        <p>朝你现在走的方向冲一小段，冲的那一下打不着你，冷却两秒多。弹幕堵成一堵墙时别硬钻，先往边上退一步，再斜着切进去。</p>
       </div>
       <div class="card">
-        <span class="idx">新怪物</span>
-        <h3>乌鸦会追，稻草人会撒弹</h3>
-        <p>乌鸦俯冲时往它落点外侧横移；稻草人停在半空撒五发扇形，绕到它斜下方最安全。南瓜也会开炮，别贴脸。</p>
+        <span class="idx">04 / 新来的</span>
+        <h3>乌鸦追人，稻草人撒弹</h3>
+        <p>乌鸦往下扎的时候往旁边挪；稻草人停在半空撒一圈弹，绕到它斜下面比较安全。南瓜也会开炮，别贴太近。</p>
       </div>
       <div class="card">
-        <span class="idx">秋果</span>
-        <h3>每关结束能改一次装备</h3>
-        <p>击落小怪掉秋果，过关后进改装台：书页扩散、护罩、草鞋、布偶。机台下方三个技能：J 落叶爆弹、K 纸页风暴、L 布偶定格，冷却好了就按。</p>
+        <span class="idx">05 / 秋果</span>
+        <h3>过关了能挑个升级</h3>
+        <p>打死小怪会掉秋果，过关就能换点东西：书页、护盾、草鞋、布偶。机台下面三个技能 J / K / L，冷却好了就按，别攒着。</p>
       </div>
     </div>
   </section>
@@ -1395,7 +1398,7 @@ footer {
   <section id="board">
     <div class="section-head">
       <h2>排行榜</h2>
-      <span>本机记录 · 存在浏览器里</span>
+      <span>成绩只存在你自己浏览器里</span>
       <div class="line"></div>
     </div>
     <div class="board-wrap">
@@ -1412,13 +1415,13 @@ footer {
             </tr>
           </thead>
           <tbody id="boardBody">
-            <tr class="empty-row"><td colspan="6">还没有记录。打完一局，这里就有你的名字。</td></tr>
+            <tr class="empty-row"><td colspan="6">还没人上榜，打完一局来留个名。</td></tr>
           </tbody>
         </table>
       </div>
       <div class="board-aside">
-        <h3>本机数据</h3>
-        <p>不联网、不上传，全部存你浏览器本地。换设备就重新开始。</p>
+        <h3>你的记录</h3>
+        <p>不联网也不上传，都存在你这台设备上。换台电脑就得从头来。</p>
         <div class="stat-line"><span>最高分</span><b id="statBest">0</b></div>
         <div class="stat-line"><span>最远关卡</span><b id="statLevel">—</b></div>
         <div class="stat-line"><span>总局数</span><b id="statRuns">0</b></div>
@@ -1430,23 +1433,23 @@ footer {
 
   <footer>
     <span id="footerText">LEAFALL · 纯前端街机 · 无后端依赖</span>
-    <span>MADE FOR ONE SCREEN · NO LOGIN · NO ADS</span>
+    <span>不用登录 · 没有广告 · 打开就玩</span>
   </footer>
 
   <!-- ===== 视图：配置后台 ===== -->
   <section id="admin">
     <div class="section-head">
       <h2>配置后台</h2>
-      <span>密码保护 · 改动只存本机浏览器</span>
+      <span>输密码进 · 改的东西只存你这台机器</span>
       <div class="line"></div>
     </div>
 
   <!-- 密码门 -->
   <section class="gate" id="gate">
     <div class="gate-card">
-      <div class="ov-kicker">RESTRICTED / 需要密码</div>
+      <div class="ov-kicker">需要密码</div>
       <h2 class="gate-title">配置后台</h2>
-      <p class="gate-sub" id="gateSub">输入管理密码，才能改站点名称、公告、难度与游戏参数。</p>
+      <p class="gate-sub" id="gateSub">输一下密码，就能改站名、公告、难度这些。</p>
       <form id="gateForm" autocomplete="off">
         <div class="gate-row">
           <input id="pwd" type="password" placeholder="管理密码" autocomplete="current-password" />
@@ -1454,7 +1457,7 @@ footer {
         </div>
         <p class="gate-err" id="gateErr"></p>
       </form>
-      <p class="gate-note">密码以 SHA-256 哈希形式保存在页面内的 config 配置块，源码里看不到明文。</p>
+      <p class="gate-note">密码存的是哈希值（SHA-256），源码里翻不到明文。</p>
     </div>
   </section>
 
@@ -1462,7 +1465,7 @@ footer {
   <section class="admin-shell" id="panel" style="display:none">
     <div class="section-head" style="padding-top:32px">
       <h2>配置表</h2>
-      <span>改动即时写入本机浏览器 · 统计与排行榜同源</span>
+      <span>改完立刻存到本机浏览器</span>
       <div class="line"></div>
     </div>
 
@@ -1536,14 +1539,14 @@ window.SITE_CONFIG = {
   site: {
     name: "LEAFALL",
     nameCn: "落叶秋游",
-    tagline: "纵版弹幕 · 5 段秋游 + 南瓜车 BOSS · 一条命从开局打到通关",
-    announcement: "v1.3 秋游版：局外金币 + 小卖部换武器，新增乌鸦/稻草人、侧身闪避与全屏（F 键）",
+    tagline: "捡落叶、躲弹幕、打南瓜车。五关，一条命，看你能走多远。",
+    announcement: "v1.4：新增松鼠、会炸的刺栗，还有秋收铃和热可可。小心刺栗碎裂时的弹幕！",
     accent: "#bf5a2c",
     accent2: "#2c76a0",
     danger: "#e5543c",
     maintenance: false,
     showLeaderboard: true,
-    footer: "LEAFALL · 纯前端街机 · 无后端依赖"
+    footer: "LEAFALL · 用 Canvas 写的小游戏 · 打开就能玩"
   },
 
   game: {
@@ -1557,7 +1560,7 @@ window.SITE_CONFIG = {
     // SHA-256("18859794790a") —— 上线前换成你自己的密码哈希
     passwordHash: "83ff012d30581c4cf0d22ff09b7776aa5661f26b2087592422aa4fd4cf66da96",
     sessionMinutes: 60,
-    hint: "密码由站主在 config.js 中设定"
+    hint: "密码由站主在配置里设定"
   },
 
   deploy: {
@@ -1576,10 +1579,10 @@ window.SITE_CONFIG = {
   ],
 
   upgrades: [
-    { id: "power",  name: "书页扩散", max: 5, base: 120, step: 90,  desc: "每级 +1 张书页 · 溅射范围更大" },
-    { id: "shield", name: "护罩", max: 4, base: 100, step: 80,  desc: "每级 +1 层护罩，脱战 8 秒自动回 1 层" },
-    { id: "engine", name: "草鞋", max: 4, base: 90,  step: 70,  desc: "移动速度 +18%，拾取吸取范围 +" },
-    { id: "drone",  name: "布偶",     max: 2, base: 260, step: 200, desc: "每架布偶自动跟随射击" }
+    { id: "power",  name: "书页扩散", max: 5, base: 120, step: 90,  desc: "多一张书页，打得更散" },
+    { id: "shield", name: "护罩", max: 4, base: 100, step: 80,  desc: "多一层盾，一会儿没挨打就自己长回来" },
+    { id: "engine", name: "草鞋", max: 4, base: 90,  step: 70,  desc: "跑得更快，掉的东西也吸得更远" },
+    { id: "drone",  name: "布偶",     max: 2, base: 260, step: 200, desc: "布偶跟着你一起打" }
   ]
 };
 
@@ -1698,6 +1701,40 @@ window.SITE_CONFIG = {
       return g;
     }
 
+    // 通用音符：type 波形，f0->f1 滑音，delay 延迟，dur 时长，vol 音量
+    function tone(type, f0, f1, delay, dur, vol) {
+      const t0 = ctx.currentTime + (delay || 0);
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = type || "sine";
+      o.frequency.setValueAtTime(f0, t0);
+      if (f1 && f1 !== f0) o.frequency.exponentialRampToValueAtTime(f1, t0 + dur);
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(vol || 0.16, t0 + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+      o.connect(g); g.connect(master);
+      o.start(t0); o.stop(t0 + dur + 0.02);
+    }
+
+    // 噪声爆破：dur 时长，vol 音量，filterFreq 低通截止（越大越亮）
+    function noise(dur, vol, filterFreq, delay) {
+      const t0 = ctx.currentTime + (delay || 0);
+      const len = Math.max(1, Math.floor(ctx.sampleRate * dur));
+      const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 1.6);
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      const flt = ctx.createBiquadFilter();
+      flt.type = "lowpass";
+      flt.frequency.setValueAtTime(filterFreq || 2400, t0);
+      flt.frequency.exponentialRampToValueAtTime(Math.max(120, (filterFreq || 2400) * 0.25), t0 + dur);
+      const g = ctx.createGain();
+      g.gain.value = vol || 0.3;
+      src.connect(flt); flt.connect(g); g.connect(master);
+      src.start(t0);
+    }
+
     return {
       setEnabled(v) { enabled = !!v; },
       resume() {
@@ -1780,12 +1817,85 @@ window.SITE_CONFIG = {
         o.frequency.setValueAtTime(520, c.currentTime);
         o.frequency.exponentialRampToValueAtTime(880, c.currentTime + 0.07);
         env(o, 0.08, 0.1);
+      },
+
+      /* ---- 技能专属 ---- */
+      skillBomb() {           // 落叶爆弹：破空上扬 + 落地闷响
+        if (!enabled || !ensure()) return;
+        tone("triangle", 300, 780, 0, 0.12, 0.14);
+        noise(0.26, 0.32, 900, 0.1);
+        tone("sine", 150, 60, 0.1, 0.28, 0.22);
+      },
+      skillStorm() {          // 纸页风暴：呼啸扫过
+        if (!enabled || !ensure()) return;
+        noise(0.55, 0.3, 3600, 0);
+        [0, 0.09, 0.18].forEach((d, i) => tone("sawtooth", 900 - i * 180, 300, d, 0.22, 0.07));
+      },
+      skillSlow() {           // 布偶定格：空灵降调，慢动作感
+        if (!enabled || !ensure()) return;
+        tone("sine", 880, 220, 0, 0.6, 0.14);
+        tone("triangle", 1320, 330, 0.04, 0.55, 0.07);
+      },
+      skillBell() {           // 秋收铃：清脆铃声（多谐波叠加）
+        if (!enabled || !ensure()) return;
+        [1046, 1568, 2093].forEach((f, i) => tone("sine", f, f * 0.99, i * 0.02, 0.7 - i * 0.14, 0.1 - i * 0.025));
+      },
+      dash() {                // 闪避：短促的"嗖"
+        if (!enabled || !ensure()) return;
+        noise(0.14, 0.16, 5200, 0);
+        tone("sine", 220, 620, 0, 0.13, 0.1);
+      },
+      enemyShot() {           // 敌人开火：低沉的"噗"，区别于玩家
+        if (!enabled || !ensure()) return;
+        tone("triangle", 200, 90, 0, 0.1, 0.06);
+      },
+
+      /* ---- 事件专属 ---- */
+      burst() {               // 刺栗爆裂：碎裂噪声 + 低频冲击
+        if (!enabled || !ensure()) return;
+        noise(0.32, 0.3, 2200, 0);
+        tone("square", 240, 70, 0, 0.22, 0.12);
+      },
+      cocoa() {               // 热可可：上扬的"咕嘟"激励
+        if (!enabled || !ensure()) return;
+        tone("sine", 300, 900, 0, 0.18, 0.16);
+        [0.12, 0.2, 0.28].forEach((d, i) => tone("triangle", 500 + i * 180, 700 + i * 220, d, 0.14, 0.09));
+      },
+      hurt() {                // 玩家受伤：刺耳下滑
+        if (!enabled || !ensure()) return;
+        tone("sawtooth", 420, 90, 0, 0.3, 0.18);
+        noise(0.18, 0.18, 1400, 0);
+      },
+      shieldBreak() {         // 护盾破裂：玻璃质感
+        if (!enabled || !ensure()) return;
+        [1800, 2400, 3100].forEach((f, i) => tone("sine", f, f * 0.7, i * 0.015, 0.24, 0.08));
+        noise(0.18, 0.14, 5000, 0);
+      },
+      upgrade() {             // 改装台升级：叮咚
+        if (!enabled || !ensure()) return;
+        tone("sine", 784, 784, 0, 0.16, 0.13);
+        tone("sine", 1046, 1046, 0.1, 0.26, 0.13);
+      },
+      lose() {                // 失败：下行音阶
+        if (!enabled || !ensure()) return;
+        [440, 349, 294, 220].forEach((f, i) => tone("triangle", f, f * 0.96, i * 0.16, 0.34, 0.14));
+      },
+      win() {                 // 通关：欢快上行琶音
+        if (!enabled || !ensure()) return;
+        [523, 659, 784, 1046, 1318].forEach((f, i) => tone("square", f, f, i * 0.11, 0.3, 0.11));
+      },
+      bossWarn() {            // BOSS 警报：紧张的三连低音
+        if (!enabled || !ensure()) return;
+        [0, 0.26, 0.52].forEach((d) => {
+          tone("sawtooth", 220, 160, d, 0.2, 0.16);
+          tone("square", 110, 90, d, 0.22, 0.08);
+        });
       }
     };
   })();
 
   /* ---------- 按键映射（可自定义） ---------- */
-  NA.keysDefault = { up: "w", down: "s", left: "a", right: "d", bomb: "j", storm: "k", slow: "l", dash: "Shift" };
+  NA.keysDefault = { up: "w", down: "s", left: "a", right: "d", bomb: "j", storm: "k", slow: "l", bell: "i", dash: "Shift" };
   NA.keys = {
     get() {
       const saved = NA.store.get("keys", {}) || {};
@@ -1817,13 +1927,13 @@ window.SITE_CONFIG = {
   NA.weapons = {
     list: [
       { id: "page",  name: "书页",    price: 0,    kind: "page",  dmgMul: 1,    countAdd: 0,  arcMul: 1,    aoeMul: 1,   speedMul: 1,    cdMul: 1,    pierce: false,
-        desc: "扇形散页，命中还会溅开一圈；等级越高扇面越宽。" },
+        desc: "撒出去一片纸，打中了还会溅开一圈，等级越高撒得越开。" },
       { id: "quill", name: "钢笔尖",  price: 800,  kind: "quill", dmgMul: 0.9,  countAdd: -1, arcMul: 0.42, aoeMul: 0,   speedMul: 1.35, cdMul: 0.9,  pierce: true,
-        desc: "一条线的高速三连，穿透整排小怪，不炸不溅。" },
+        desc: "一条直线的高速三连，能穿透一整排，但不炸。" },
       { id: "ink",   name: "墨水瓶",  price: 1600, kind: "ink",   dmgMul: 1.55, countAdd: -2, arcMul: 1.18, aoeMul: 1.95, speedMul: 0.76, cdMul: 1.35, pierce: false,
-        desc: "慢速重墨，落点炸得比书页大一圈，专门清扎堆的。" },
+        desc: "飞得慢，砸得狠，炸得比书页大，专治扎堆的。" },
       { id: "maple", name: "枫叶镖",  price: 2600, kind: "maple", dmgMul: 0.82, countAdd: 3,  arcMul: 1.35, aoeMul: 0.6,  speedMul: 1.12, cdMul: 1.05, pierce: false,
-        desc: "弹数最多、扇面最宽，铺满上半屏换走位空间。" }
+        desc: "弹最多、撒得最开，铺满上半屏，走位更从容。" }
     ],
     get(id) {
       for (var i = 0; i < this.list.length; i++) if (this.list[i].id === id) return this.list[i];
@@ -2136,8 +2246,11 @@ window.SITE_CONFIG = {
         bomb:  { cd: 0, max: 8,  key: "J" },
         storm: { cd: 0, max: 15, key: "K" },
         slow:  { cd: 0, max: 17, key: "L" },
+        bell:  { cd: 0, max: 16, key: "I" },
         dash:  { cd: 0, max: 2.4, key: "Shift" }
       };
+      this.magnetT = 0;   // 秋收铃：吸秋果的剩余时间
+      this.fireBoostT = 0; // 热可可：火力爆发剩余时间
       this.ebullets = [];
       this.enemies = [];
       this.pickups = [];
@@ -2191,9 +2304,9 @@ window.SITE_CONFIG = {
       this.levelKills = 0;
       this.bossSpawned = false;
       this.spawnTimer = 1.1;
-      this.banner = { text: "LEVEL " + (index + 1) + " · " + cfg.name, sub: cfg.boss ? "击落南瓜车「秋收」" : "坚持 40 秒", t: 2.6 };
+      this.banner = { text: "LEVEL " + (index + 1) + " · " + cfg.name, sub: cfg.boss ? "打掉那辆南瓜车" : "撑过这一关", t: 2.6 };
       this.emitHud();
-      if (cfg.boss) NA.sound.alarm();
+      if (cfg.boss) NA.sound.bossWarn();
     }
 
     pause() {
@@ -2309,6 +2422,8 @@ window.SITE_CONFIG = {
         s.cd = Math.max(0, s.cd - dt);
       });
       this.slowT = Math.max(0, this.slowT - dt);
+      this.magnetT = Math.max(0, this.magnetT - dt);
+      this.fireBoostT = Math.max(0, this.fireBoostT - dt);
       this.updateBombs(dt);
 
       // 计时器
@@ -2370,7 +2485,8 @@ window.SITE_CONFIG = {
       if (p.fireCd <= 0) {
         this.playerFire();
         const wcd = this.weapon ? this.weapon.cdMul : 1;
-        p.fireCd = Math.max(0.055, (0.155 - p.power * 0.012) * wcd);
+        const boostCd = this.fireBoostT > 0 ? 0.68 : 1;
+        p.fireCd = Math.max(0.045, (0.155 - p.power * 0.012) * wcd * boostCd);
       }
 
       // 布偶
@@ -2484,7 +2600,7 @@ window.SITE_CONFIG = {
       p.dashDy = dy;
       p.invuln = Math.max(p.invuln, 0.5);
       this.shake = Math.max(this.shake, 2);
-      NA.sound.ui();
+      NA.sound.dash();
       return true;
     }
 
@@ -2496,7 +2612,7 @@ window.SITE_CONFIG = {
       if (key === "bomb") {
         this.bombs.push({ x: p.x, y: p.y - 16, vx: 0, vy: -320, t: 0, fuse: 0.55, r: 84, dmg: 7, spin: 0 });
         s.cd = s.max;
-        NA.sound.shot();
+        NA.sound.skillBomb();
       } else if (key === "storm") {
         this.ebullets.length = 0;
         this.enemies.slice().forEach((e) => this.damageEnemy(e, 2.6, e.x, e.y));
@@ -2509,11 +2625,27 @@ window.SITE_CONFIG = {
           });
         }
         this.shake = Math.max(this.shake, 6);
-        NA.sound.boom();
+        NA.sound.skillStorm();
         s.cd = s.max;
       } else if (key === "slow") {
         this.slowT = 4.2;
-        NA.sound.alarm();
+        NA.sound.skillSlow();
+        s.cd = s.max;
+      } else if (key === "bell") {
+        // 秋收铃：满屏秋果飞向自己 + 短时间大范围拾取 + 回一格血
+        this.magnetT = 5;
+        p.hp = Math.min(p.maxHp, p.hp + 1);
+        this.float(p.x, p.y - 34, "丰收 + 回血", "#e8b45f");
+        for (let i = 0; i < 26; i++) {
+          const a = (i / 26) * Math.PI * 2;
+          this.particles.push({
+            x: p.x + Math.cos(a) * 34, y: p.y + Math.sin(a) * 34,
+            vx: Math.cos(a) * 210, vy: Math.sin(a) * 210,
+            life: 0.7, maxLife: 0.7, color: "#e8b45f", size: 3.2
+          });
+        }
+        this.shake = Math.max(this.shake, 4);
+        NA.sound.skillBell();
         s.cd = s.max;
       } else if (key === "dash") {
         if (!this.tryDash()) return false;
@@ -2619,7 +2751,7 @@ window.SITE_CONFIG = {
             this.enemyFireAt(e, p);
             e.shots = 3; e.spread = 0.14;
             e.fireCd = U.rand(1.5, 2.0);
-            NA.sound.ui();
+            NA.sound.enemyShot();
           }
         } else if (e.type === "tank") {
           e.y += e.vy * sdt;
@@ -2630,6 +2762,15 @@ window.SITE_CONFIG = {
             e.shots = 3; e.spread = 0.1;
             this.enemyFireAt(e, p);
           }
+        } else if (e.type === "squirrel") {
+          // 松鼠：抱着松果快速左右窜，走位难抓
+          e.y += e.vy * sdt;
+          e.x = e.x0 + Math.sin(e.t * 3.1 + e.phase) * 92;
+          e.tilt = Math.cos(e.t * 3.1 + e.phase) * 0.22;
+        } else if (e.type === "chestnut") {
+          // 刺栗：慢悠悠下落，被击碎时炸一圈弹
+          e.y += e.vy * sdt;
+          e.tilt = Math.sin(e.t * 1.6 + e.phase) * 0.16;
         } else {
           e.y += e.vy * sdt;
         }
@@ -2671,7 +2812,7 @@ window.SITE_CONFIG = {
         const k = this.pickups[i];
         k.y += k.vy * dt;
         k.t += dt;
-        const grab = 60 + p.engine * 12;
+        const grab = (this.magnetT > 0 ? 260 : 60) + p.engine * 12;
         if (U.dist2(k.x, k.y, p.x, p.y) < grab * grab) {
           const ang = Math.atan2(p.y - k.y, p.x - k.x);
           k.x += Math.cos(ang) * 320 * dt;
@@ -2715,6 +2856,8 @@ window.SITE_CONFIG = {
       if (lv >= 2) choices.push({ type: "crow", w: 1.5 + lv * 0.4 });
       if (lv >= 3) choices.push({ type: "tank", w: 0.95 + lv * 0.2 });
       if (lv >= 3) choices.push({ type: "scarecrow", w: 0.8 + lv * 0.25 });
+      if (lv >= 2) choices.push({ type: "squirrel", w: 1.1 + lv * 0.3 });
+      if (lv >= 3) choices.push({ type: "chestnut", w: 0.7 + lv * 0.22 });
 
       const total = choices.reduce((s, c) => s + Math.max(0.2, c.w), 0);
       let r = Math.random() * total;
@@ -2739,7 +2882,9 @@ window.SITE_CONFIG = {
         gunner: { hp: 7, w: 34, h: 30, vy: 62, score: 72, alloy: 18 },
         tank: { hp: 18, w: 46, h: 40, vy: 52, score: 160, alloy: 36 },
         crow: { hp: 3.4, w: 34, h: 26, vy: 148, score: 46, alloy: 11 },
-        scarecrow: { hp: 13, w: 42, h: 42, vy: 56, score: 108, alloy: 26 }
+        scarecrow: { hp: 13, w: 42, h: 42, vy: 56, score: 108, alloy: 26 },
+        squirrel: { hp: 4.6, w: 34, h: 28, vy: 132, score: 58, alloy: 20 },
+        chestnut: { hp: 10, w: 36, h: 34, vy: 74, score: 92, alloy: 24 }
       }[type];
 
       const e = {
@@ -2775,8 +2920,8 @@ window.SITE_CONFIG = {
         score: 1200, alloy: 260,
         fireCd: 1.4, ringCd: 5
       };
-      this.banner = { text: "WARNING · 南瓜车来了", sub: "打掉瓜芯，别被弹幕压死", t: 3.2 };
-      NA.sound.alarm();
+      this.banner = { text: "南瓜车来了", sub: "盯着瓜芯打，别让弹幕把你堵死", t: 3.2 };
+      NA.sound.bossWarn();
       this.shake = 12;
       this.emitHud();
     }
@@ -2786,7 +2931,8 @@ window.SITE_CONFIG = {
       const p = this.player;
       const w = this.weapon || NA.weapons.get("page");
       const dmg = 1 * (1 + 0.12 * p.power) * w.dmgMul;
-      const count = Math.max(1, Math.min(3 + Math.floor(p.power * 1.1), 7) + w.countAdd);
+      const boost = this.fireBoostT > 0 ? 2 : 0;
+      const count = Math.max(1, Math.min(3 + Math.floor(p.power * 1.1), 7) + w.countAdd + boost);
       const halfArc = (0.12 + 0.075 * p.power) * w.arcMul;   // 升级越宽
       const aoe = w.aoeMul > 0 ? (20 + p.power * 11) * w.aoeMul : 0;
       const baseSpeed = BULLET_SPEED * w.speedMul;
@@ -2832,7 +2978,26 @@ window.SITE_CONFIG = {
       });
     }
 
+    chestnutBurst(e) {
+      // 刺栗碎裂：向四周撒一圈短命弹幕，逼玩家别贴太近扫射
+      const n = 10;
+      const base = (e.t || 0) * 0.8;
+      for (let i = 0; i < n; i++) {
+        const a = base + (i / n) * Math.PI * 2;
+        const sp = 148 * (this.diff.eSpeed || 1);
+        this.ebullets.push({
+          x: e.x, y: e.y,
+          vx: Math.cos(a) * sp, vy: Math.sin(a) * sp,
+          r: 4, dmg: 1
+        });
+      }
+      this.sparks(e.x, e.y, 9, "#b98244");
+      this.shake = Math.max(this.shake, 3);
+      NA.sound.burst();
+    }
+
     enemyFireAt(e, p) {
+      if (e.y > 0) NA.sound.enemyShot();
       const n = e.shots || 3;
       const spread = e.spread || 0.14;
       const ang = Math.atan2(p.y - e.y, p.x - e.x);
@@ -2889,6 +3054,7 @@ window.SITE_CONFIG = {
         const isBoss = !!e.maxHp && e.maxHp > 300;
         this.explode(e.x, e.y, isBoss ? 46 : e.type === "tank" ? 26 : 16);
         NA.sound.boom();
+        if (e.type === "chestnut" && !isBoss && this.state === "playing") this.chestnutBurst(e);
         this.score += e.score * this.diff.scoreMul;
         this.alloy += e.alloy;
         this.kills++;
@@ -2909,7 +3075,7 @@ window.SITE_CONFIG = {
         p.shield -= 1;
         p.invuln = 0.5;
         this.shieldBurst(p.x, p.y);
-        NA.sound.hit();
+        NA.sound.shieldBreak();
         this.shake = Math.max(this.shake, 4);
         this.emitHud();
         return;
@@ -2919,7 +3085,7 @@ window.SITE_CONFIG = {
       this.hitFlash = 0.4;
       this.shake = 8;
       this.explode(p.x, p.y, 14);
-      NA.sound.hit();
+      NA.sound.hurt();
       this.emitHud();
       if (p.hp <= 0) this.gameOver();
     }
@@ -2935,11 +3101,12 @@ window.SITE_CONFIG = {
     }
 
     maybeDrop(e) {
-      let chance = e.type === "tank" ? 0.75 : e.type === "gunner" ? 0.45 : 0.12;
+      let chance = e.type === "tank" ? 0.75 : e.type === "chestnut" ? 0.8 : e.type === "squirrel" ? 0.55 : e.type === "gunner" ? 0.45 : 0.12;
       if (Math.random() > chance) return;
       const p = this.player;
       const table = [];
       table.push({ t: "alloy", w: 3 });
+      table.push({ t: "cocoa", w: 1.1 });
       if (p.power < 5) table.push({ t: "power", w: 2.4 });
       if (p.shieldMax > 0 && p.shield < p.shieldMax) table.push({ t: "shield", w: 1.6 });
       if (p.hp < p.maxHp) table.push({ t: "heal", w: 1.4 });
@@ -2956,10 +3123,21 @@ window.SITE_CONFIG = {
         this.float(p.x, p.y - 30, "POWER " + p.power, "#7fd4f2");
       } else if (type === "shield") {
         p.shield = Math.min(p.shieldMax || 3, p.shield + 1);
-        this.float(p.x, p.y - 30, "护罩 +1", "#e6b45c");
+        this.float(p.x, p.y - 30, "盾 +1", "#e6b45c");
       } else if (type === "heal") {
         p.hp = Math.min(p.maxHp, p.hp + 1);
-        this.float(p.x, p.y - 30, "修复 +1", "#f08a3c");
+        this.float(p.x, p.y - 30, "血 +1", "#f08a3c");
+      } else if (type === "cocoa") {
+        this.fireBoostT = 8;
+        NA.sound.cocoa();
+        this.float(p.x, p.y - 30, "火力爆发！", "#c0701f");
+        for (let i = 0; i < 12; i++) {
+          const a = (i / 12) * Math.PI * 2;
+          this.particles.push({
+            x: p.x, y: p.y, vx: Math.cos(a) * 130, vy: Math.sin(a) * 130,
+            life: 0.5, maxLife: 0.5, color: "#c0701f", size: 2.6
+          });
+        }
       } else {
         this.alloy += 12;
         this.float(p.x, p.y - 30, "秋果 +12", "#e9b95c");
@@ -3040,7 +3218,7 @@ window.SITE_CONFIG = {
       if (id === "shield") { p.shieldMax = Math.min(4, p.shieldMax + 1); p.shield = p.shieldMax; }
       if (id === "engine") p.engine = Math.min(4, p.engine + 1);
       if (id === "drone") p.drones = Math.min(2, p.drones + 1);
-      NA.sound.ui();
+      NA.sound.upgrade();
       this.emitHud();
       return { ok: true, alloy: this.alloy };
     }
@@ -3061,7 +3239,7 @@ window.SITE_CONFIG = {
       const p = this.player;
       this.explode(p.x, p.y, 34);
       this.floats.length = 0;
-      NA.sound.boom();
+      NA.sound.lose();
       const result = {
         win: false,
         score: Math.floor(this.score),
@@ -3081,7 +3259,7 @@ window.SITE_CONFIG = {
       this.finished = true;
       this.state = "win";
       this.score += 500;
-      NA.sound.levelUp();
+      NA.sound.win();
       const result = {
         win: true,
         score: Math.floor(this.score),
@@ -3101,7 +3279,7 @@ window.SITE_CONFIG = {
       this.explode(this.boss.x, this.boss.y, 60);
       this.boss = null;
       this.shake = 26;
-      this.floats.push({ x: W / 2, y: 180, text: "南瓜车击落", life: 2, color: "#c0623a" });
+      this.floats.push({ x: W / 2, y: 180, text: "南瓜车打掉了", life: 2, color: "#c0623a" });
       this.win();
     }
 
@@ -3743,6 +3921,60 @@ window.SITE_CONFIG = {
           ctx.beginPath();
           ctx.rect(6, 6, 5, 4.6);
           ctx.fill();
+        } else if (e.type === "squirrel") {
+          // 松鼠：抱着松果，大尾巴
+          const bob = Math.sin(this.time * 12 + e.phase) * 2;
+          ctx.rotate(e.tilt || 0);
+          // 尾巴
+          ctx.beginPath();
+          ctx.moveTo(7, 8);
+          ctx.quadraticCurveTo(27, 4 + bob, 23, -13 + bob);
+          ctx.quadraticCurveTo(20, -24 + bob, 12, -18 + bob);
+          ctx.quadraticCurveTo(21, -8 + bob, 7, 1);
+          ctx.closePath();
+          ctx.fillStyle = hurt ? "#e9b78d" : "#c87838";
+          ctx.fill();
+          ctx.strokeStyle = INK; ctx.lineWidth = 1.4; ctx.stroke();
+          // 耳朵
+          [-6.4, 6.4].forEach((ex) => {
+            ctx.beginPath();
+            ctx.moveTo(ex - 3, -7); ctx.lineTo(ex, -15); ctx.lineTo(ex + 3, -7);
+            ctx.closePath();
+            ctx.fillStyle = hurt ? "#f0c9a6" : "#d98f4a"; ctx.fill();
+            ctx.strokeStyle = INK; ctx.lineWidth = 1.1; ctx.stroke();
+          });
+          // 身体
+          ctx.beginPath();
+          ctx.ellipse(0, 3, 11, 11.6, 0, 0, Math.PI * 2);
+          ctx.fillStyle = hurt ? "#f0c9a6" : "#d98f4a";
+          ctx.fill();
+          ctx.strokeStyle = INK; ctx.lineWidth = 1.5; ctx.stroke();
+          // 松果
+          ctx.beginPath();
+          ctx.ellipse(0, 9.5, 4.4, 5.6, 0, 0, Math.PI * 2);
+          ctx.fillStyle = "#8a6238"; ctx.fill();
+          ctx.strokeStyle = INK; ctx.lineWidth = 1; ctx.stroke();
+          face(0, -1, 0.82);
+        } else if (e.type === "chestnut") {
+          // 刺栗：一圈尖刺 + 栗壳笑脸，碎了会炸
+          ctx.rotate(e.tilt || 0);
+          ctx.beginPath();
+          for (let i = 0; i < 12; i++) {
+            const a = (i / 12) * Math.PI * 2;
+            ctx.moveTo(Math.cos(a) * 12, Math.sin(a) * 12);
+            ctx.lineTo(Math.cos(a + 0.1) * 19, Math.sin(a + 0.1) * 19);
+            ctx.lineTo(Math.cos(a + 0.2) * 12, Math.sin(a + 0.2) * 12);
+          }
+          ctx.fillStyle = hurt ? "#c9a882" : "#7a5236";
+          ctx.fill();
+          ctx.beginPath();
+          ctx.ellipse(0, 0, 13, 12.4, 0, 0, Math.PI * 2);
+          ctx.fillStyle = hurt ? "#e3c19b" : "#a56a3c";
+          ctx.fill();
+          ctx.strokeStyle = INK; ctx.lineWidth = 1.6; ctx.stroke();
+          ctx.fillStyle = "rgba(255,240,215,0.32)";
+          ctx.beginPath(); ctx.ellipse(-4.2, -4.4, 4, 3, -0.4, 0, Math.PI * 2); ctx.fill();
+          face(0, 1.4, 0.9);
         } else {
           // 南瓜
           ctx.rotate(e.tilt || 0);
@@ -3905,8 +4137,8 @@ window.SITE_CONFIG = {
 
     drawPickups(ctx) {
       this.pickups.forEach((k) => {
-        const color = { power: "#2c76a0", shield: "#77b7e0", heal: "#bf5a2c", alloy: "#c98a2e" }[k.type];
-        const label = { power: "P", shield: "S", heal: "H", alloy: "¤" }[k.type];
+        const color = { power: "#2c76a0", shield: "#77b7e0", heal: "#bf5a2c", alloy: "#c98a2e", cocoa: "#7a4a24" }[k.type];
+        const label = { power: "P", shield: "S", heal: "H", alloy: "¤", cocoa: "C" }[k.type];
         ctx.save();
         ctx.translate(k.x, k.y);
         ctx.rotate(k.t * 2.4);
@@ -3986,7 +4218,7 @@ window.SITE_CONFIG = {
       ctx.textAlign = "center";
       ctx.fillStyle = "#6d5634";
       ctx.font = "11px ui-monospace, monospace";
-      ctx.fillText("拖动小女孩 / WASD 移动 · 自动投页", W / 2, H - 60);
+      ctx.fillText("拖动小人 / WASD 移动 · 自动开火", W / 2, H - 60);
       ctx.restore();
     }
   }
@@ -4006,10 +4238,10 @@ window.SITE_CONFIG = {
   const $ = (id) => document.getElementById(id);
 
   const DIFF_HINT = {
-    easy: "简单：敌机更慢更少，适合先熟悉弹幕",
-    normal: "普通：比旧版更密更快，一条命五格血",
-    hard: "困难：弹速 ×1.12、血 ×1.45，分数 ×1.3",
-    nightmare: "噩梦：弹速 ×1.42、血 ×1.95，分数 ×1.85"
+    easy: "简单：怪少一点慢一点，先练练手",
+    normal: "普通：正常难度，一条命五格血，留意会炸的刺栗",
+    hard: "困难：弹更快、怪更肉，分数也给得多",
+    nightmare: "噩梦：弹幕很凶，分数也很香"
   };
   const DIFF_LABEL = { easy: "简单", normal: "普通", hard: "困难", nightmare: "噩梦" };
 
@@ -4108,7 +4340,7 @@ window.SITE_CONFIG = {
     const list = NA.leaderboard.load();
     const tbody = $("boardBody");
     if (!list.length) {
-      tbody.innerHTML = '<tr class="empty-row"><td colspan="6">还没有记录。打完一局，这里就有你的名字。</td></tr>';
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="6">还没人上榜，打完一局来留个名。</td></tr>';
       return;
     }
     tbody.innerHTML = list
@@ -4116,7 +4348,7 @@ window.SITE_CONFIG = {
         return (
           "<tr>" +
           '<td class="rank' + (i === 0 ? " top1" : "") + '">' + U.pad2(i + 1) + "</td>" +
-          "<td>" + escapeHtml(r.name || "指挥官") + "</td>" +
+          "<td>" + escapeHtml(r.name || "无名游客") + "</td>" +
           '<td class="score">' + U.fmtScore(r.score) + "</td>" +
           '<td class="num">' + (r.level || 1) + "</td>" +
           '<td class="num">' + U.fmtTime(r.time || 0) + "</td>" +
@@ -4185,19 +4417,19 @@ window.SITE_CONFIG = {
     overlayMode = "start";
     endResult = null;
     showOverlay(
-      '<div class="ov-kicker">LEAFALL / 落叶秋游</div>' +
-        "<h2>五关，一条命</h2>" +
-        '<p class="sub">六种秋日小怪、南瓜车 BOSS、护盾与布偶升级。点开始，看看你能撑到第几关。</p>' +
+      '<div class="ov-kicker">落叶秋游</div>' +
+        "<h2>来玩吧</h2>" +
+        '<p class="sub">八种小怪、一辆南瓜车，还有护盾和布偶。点开始，看你能撑到第几关。</p>' +
         '<div class="keys-hint">' +
         "<div><kbd>WASD</kbd> / <kbd>方向键</kbd></div><div>移动</div>" +
         "<div>拖动屏幕</div><div>手机操控</div>" +
         "<div><kbd>ESC</kbd> / <kbd>P</kbd></div><div>暂停</div>" +
         "<div>自动投页</div><div>不用按</div>" +
-        "<div><kbd>" + NA.keys.label(NA.keys.get().bomb) + "</kbd> / <kbd>" + NA.keys.label(NA.keys.get().storm) + "</kbd> / <kbd>" + NA.keys.label(NA.keys.get().slow) + "</kbd></div><div>三个技能</div>" +
+        "<div><kbd>" + NA.keys.label(NA.keys.get().bomb) + "</kbd> / <kbd>" + NA.keys.label(NA.keys.get().storm) + "</kbd> / <kbd>" + NA.keys.label(NA.keys.get().slow) + "</kbd> / <kbd>" + NA.keys.label(NA.keys.get().bell) + "</kbd></div><div>四个技能</div>" +
         "<div>机台下方按钮</div><div>手机也能放技能</div>" +
-        "<div><kbd>" + NA.keys.label(NA.keys.get().dash) + "</kbd></div><div>侧身闪避 · 短暂无敌</div>" +
+        "<div><kbd>" + NA.keys.label(NA.keys.get().dash) + "</kbd></div><div>侧身闪避</div>" +
         "</div>" +
-        '<p class="sub" style="margin-top:-6px;font-size:12px">当前武器：' + NA.weapons.get(NA.wallet.load().weapon).name + '（机台上方「小卖部」可换）。技能和移动键能在机台下面「改键」里换。</p>' +
+        '<p class="sub" style="margin-top:-6px;font-size:12px">当前武器：' + NA.weapons.get(NA.wallet.load().weapon).name + '（首页「小卖部」能换）。按键不对劲？机台下面「改键」里改。</p>' +
         '<div class="ov-actions"><button class="btn primary" id="ovStart">开始秋游</button></div>'
     );
     $("ovStart").addEventListener("click", startRun);
@@ -4206,7 +4438,7 @@ window.SITE_CONFIG = {
   function screenPause(snap) {
     overlayMode = "pause";
     showOverlay(
-      '<div class="ov-kicker">PAUSED</div>' +
+      '<div class="ov-kicker">暂停了</div>' +
         "<h2>已暂停</h2>" +
         '<p class="sub">当前 ' + U.fmtScore(snap ? snap.score : 0) + " 分 · 第 " + (snap ? snap.level : 1) + " 关</p>" +
         '<div class="ov-actions">' +
@@ -4246,14 +4478,14 @@ window.SITE_CONFIG = {
       })
       .join("");
 
-    const next = d.next ? "LEVEL " + U.pad2(d.level + 1) + " · " + d.next.name : "最终南瓜车";
+    const next = d.next ? "第 " + (d.level + 1) + " 关 · " + d.next.name : "最后那辆南瓜车";
 
     return (
       '<div class="upg-head"><h2>改装台</h2><span class="alloy">秋果 ' + d.alloy + "</span></div>" +
-      '<p class="sub upg-sub">第 ' + d.level + " 关通过 · 下一站 " + next + "</p>" +
+      '<p class="sub upg-sub">第 ' + d.level + " 关过了 · 接下来 " + next + "</p>" +
       '<div class="upg-grid">' + cards + "</div>" +
-      '<div class="ov-actions"><button class="btn primary" id="ovNext">进入下一关</button></div>' +
-      '<p class="upg-tip">秋果只在本局有效，过关不累积</p>'
+      '<div class="ov-actions"><button class="btn primary" id="ovNext">下一关</button></div>' +
+      '<p class="upg-tip">秋果只在这一局有用，过关就清零</p>'
     );
   }
 
@@ -4287,10 +4519,10 @@ window.SITE_CONFIG = {
     const savedBest = loadStats().best || 0;
 
     const html =
-      '<div class="ov-kicker">' + (isWin ? "五关全清" : "这趟秋游到此为止") + "</div>" +
-      '<h2 class="' + (isWin ? "win" : "danger") + '">' + (isWin ? "南瓜车解体" : "被弹幕留下了") + "</h2>" +
+      '<div class="ov-kicker">' + (isWin ? "全通关了" : "这趟就到这了") + "</div>" +
+      '<h2 class="' + (isWin ? "win" : "danger") + '">' + (isWin ? "南瓜车打爆了" : "被弹幕带走了") + "</h2>" +
       '<p class="sub">' +
-      (isWin ? "南瓜车「秋收」解体，五关全清。" : "止步第 " + result.level + " 关。再来一次？") +
+      (isWin ? "五关全通，南瓜车也打爆了。" : "倒在第 " + result.level + " 关，再来一把？") +
       "</p>" +
       '<div class="result-grid">' +
       '<div class="result-cell"><span>分数</span><b>' + U.fmtScore(result.score) + "</b></div>" +
@@ -4299,14 +4531,14 @@ window.SITE_CONFIG = {
       '<div class="result-cell"><span>用时</span><b>' + U.fmtTime(result.time) + "</b></div>" +
       '<div class="result-cell accent-cell"><span>金币 +' + (result.coins || 0) + "</span><b>" + (result.coinsTotal != null ? result.coinsTotal : NA.wallet.load().coins) + "</b></div>" +
       "</div>" +
-      (result.score > savedBest ? '<p class="sub new-best">新纪录 · 本机最高分</p>' : "") +
+      (result.score > savedBest ? '<p class="sub new-best">新纪录！</p>' : "") +
       '<div class="name-row">' +
-      '<input id="nameInput" maxlength="12" placeholder="留个名字，最多 12 字" value="' + escapeHtml(NA.store.get("nickname", "")) + '" />' +
-      '<button class="btn primary small" id="saveBtn">记入排行榜</button>' +
+      '<input id="nameInput" maxlength="12" placeholder="留个名，最多 12 个字" value="' + escapeHtml(NA.store.get("nickname", "")) + '" />' +
+      '<button class="btn primary small" id="saveBtn">记上去</button>' +
       "</div>" +
       '<div class="ov-actions">' +
-      '<button class="btn primary" id="ovRetry">再来一局</button>' +
-      '<button class="btn ghost" id="ovHome">回到首页</button>' +
+      '<button class="btn primary" id="ovRetry">再来一把</button>' +
+      '<button class="btn ghost" id="ovHome">回首页</button>' +
       "</div>";
 
     showOverlay(html);
@@ -4319,7 +4551,7 @@ window.SITE_CONFIG = {
     });
     $("saveBtn").addEventListener("click", () => {
       const input = $("nameInput");
-      const name = (input.value || "指挥官").trim().slice(0, 12) || "指挥官";
+      const name = (input.value || "无名游客").trim().slice(0, 12) || "无名游客";
       NA.store.set("nickname", name);
       NA.leaderboard.add({
         name,
@@ -4410,7 +4642,7 @@ window.SITE_CONFIG = {
   /* ---------------- 按键设置 ---------------- */
   const KEY_ROWS = [
     ["up", "向上"], ["down", "向下"], ["left", "向左"], ["right", "向右"],
-    ["bomb", "落叶爆弹"], ["storm", "纸页风暴"], ["slow", "布偶定格"], ["dash", "侧身闪避"]
+    ["bomb", "落叶爆弹"], ["storm", "纸页风暴"], ["slow", "布偶定格"], ["bell", "秋收铃"], ["dash", "侧身闪避"]
   ];
   let listeningKey = null;
 
@@ -4489,7 +4721,7 @@ window.SITE_CONFIG = {
         return;
       }
       NA.keys.set(listeningKey, e.key);
-      $("keysMsg").textContent = "已改为 " + NA.keys.label(e.key) + "（技能按钮上会同步显示）";
+      $("keysMsg").textContent = "改成 " + NA.keys.label(e.key) + " 了";
       listeningKey = null;
       renderKeys();
       applyKeyLabels();
@@ -4543,10 +4775,10 @@ window.SITE_CONFIG = {
         const r = NA.wallet.buy(id);
         if (!r.ok) { $("shopMsg").textContent = r.msg; return; }
         NA.wallet.equip(id);
-        $("shopMsg").textContent = "买下并换上了「" + it.name + "」，本局就用它";
+        $("shopMsg").textContent = "买了「" + it.name + "」，这就换上";
       } else {
         NA.wallet.equip(id);
-        $("shopMsg").textContent = "已换上「" + it.name + "」";
+        $("shopMsg").textContent = "换成「" + it.name + "」了";
       }
       if (game && game.state === "playing") game.weapon = NA.weapons.get(NA.wallet.load().weapon);
       NA.sound.ui();
@@ -4604,7 +4836,7 @@ window.SITE_CONFIG = {
       if (document.activeElement && document.activeElement.tagName === "INPUT") return;
       const m = NA.keys.get();
       const norm = e.key.length === 1 ? e.key.toLowerCase() : e.key;
-      const sk = ["bomb", "storm", "slow", "dash"].find((id) => String(m[id]).toLowerCase() === norm);
+      const sk = ["bomb", "storm", "slow", "bell", "dash"].find((id) => String(m[id]).toLowerCase() === norm);
       if (sk && game && game.state === "playing") {
         e.preventDefault();
         if (game.useSkill(sk)) syncSkills();
@@ -5087,6 +5319,71 @@ body { overflow-x: hidden; }
 .cabinet:fullscreen .screen { flex: 1; display: grid; place-items: center; }
 .cabinet:fullscreen .hud, .cabinet:fullscreen .stagebar,
 .cabinet:fullscreen .cabinet-foot { flex: 0 0 auto; }
+
+/* ============================================================
+   去模板感微调：收紧过宽字距、给说明卡片一点手作纸条的味道
+   （保留暖黄秋游基调；放在最后，覆盖前面规则）
+   ============================================================ */
+.brand-text b { letter-spacing: 1px; }
+.brand-text i { letter-spacing: 2px; }
+.kicker { letter-spacing: 1px; }
+.kicker .dot { width: 12px; }
+h1 .h1-cn { letter-spacing: 4px; }
+.meta-row span { letter-spacing: .5px; }
+.announce em { letter-spacing: 1px; }
+.section-head h2 { letter-spacing: 1px; }
+.section-head span { letter-spacing: 0; }
+.card h3 { letter-spacing: 0; }
+.gate-title { letter-spacing: 1px; }
+.board-aside h3 { letter-spacing: .5px; }
+.btn { letter-spacing: .5px; }
+
+/* 小节标题前的小星标，去掉一点严肃感 */
+.section-head h2::before {
+  content: "✳";
+  color: var(--accent);
+  font-size: .62em;
+  vertical-align: .14em;
+  margin-right: .5em;
+  font-weight: 400;
+}
+
+/* 分隔线改成虚线，手绘感 */
+.section-head { border-bottom: 1px dashed var(--line-strong); }
+
+/* “怎么打”改成钉在墙上的小纸条 */
+.cards { gap: 16px; }
+.card {
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--accent);
+  background: var(--paper-2);
+  padding: 18px 16px 20px;
+  box-shadow: 2px 3px 0 rgba(74, 48, 24, .06);
+}
+.card:nth-child(odd) { transform: rotate(-.45deg); }
+.card:nth-child(even) { transform: rotate(.45deg); }
+.card .idx {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff9f5;
+  font-size: 10px;
+  letter-spacing: .5px;
+  padding: 2px 8px;
+  margin-bottom: 12px;
+  border-radius: 2px;
+}
+.card:hover { transform: rotate(0) translateY(-2px); transition: transform .18s ease; }
+
+/* 主按钮一点点落影，少点扁平模板感 */
+.btn.primary { box-shadow: 2px 2px 0 rgba(120, 50, 20, .16); }
+
+/* 窄屏：5 个技能按钮自适应换行，避免第 5 个挤爆横向布局 */
+@media (max-width: 720px) {
+  .skillbar { grid-template-columns: repeat(auto-fit, minmax(64px, 1fr)); }
+  .skill { padding: 5px 5px 6px; }
+  .skill .sname { font-size: 10.5px; }
+  .skill .scd { font-size: 8.5px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+}
 </style>
 <script>
   (function () {
