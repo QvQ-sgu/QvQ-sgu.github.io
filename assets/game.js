@@ -115,6 +115,8 @@
       };
       this.magnetT = 0;   // 秋收铃：吸秋果的剩余时间
       this.fireBoostT = 0; // 热可可：火力爆发剩余时间
+      this.debuffs = {};  // 负面 buff：{ slow: 剩余秒数, ... }
+      this.escapeCount = 0; // 本局漏怪数
       this.ebullets = [];
       this.enemies = [];
       this.pickups = [];
@@ -243,7 +245,9 @@
         levelDur: cfg.boss ? null : LEVEL_DURATION,
         runTime: this.runTime,
         boss: this.boss ? { hp: Math.max(0, this.boss.hp), maxHp: this.boss.maxHp } : null,
-        difficulty: this.diff.label
+        difficulty: this.diff.label,
+        debuffs: this.debuffList(),
+        escapeCount: this.escapeCount
       };
     }
 
@@ -288,6 +292,7 @@
       this.slowT = Math.max(0, this.slowT - dt);
       this.magnetT = Math.max(0, this.magnetT - dt);
       this.fireBoostT = Math.max(0, this.fireBoostT - dt);
+      this.tickDebuffs(dt);
       this.updateBombs(dt);
 
       // 计时器
@@ -295,8 +300,10 @@
       this.shake = Math.max(0, this.shake - dt * 22);
       p.invuln = Math.max(0, p.invuln - dt);
 
-      // 玩家移动
-      const speed = PLAYER_BASE_SPEED * (1 + 0.18 * p.engine);
+      // 玩家移动（受负面 buff 影响）
+      let speed = PLAYER_BASE_SPEED * (1 + 0.18 * p.engine);
+      if (this.debuffs.slow > 0) speed *= 0.65;
+      if (this.debuffs.stun > 0) speed = 0;
       let ax = 0, ay = 0;
       const K = NA.keys ? NA.keys.get() : { up: "w", down: "s", left: "a", right: "d" };
       const hold = (v) => !!v && NA.input.isDown(v, v.toUpperCase ? v.toUpperCase() : v);
@@ -319,6 +326,9 @@
           vx: -p.dashDx * 40, vy: -p.dashDy * 40 + 30,
           life: 0.3, maxLife: 0.3, color: "#e8c98a", size: 3.2
         });
+      } else if (this.debuffs.stun > 0) {
+        // 眩晕：站着不动
+        p.tilt *= 0.86;
       } else if (ptr.active && ptr.down) {
         const tx = U.clamp(ptr.x, 24, W - 24);
         const ty = U.clamp(ptr.y, 40, H - 30);
@@ -344,9 +354,9 @@
       // 起跳回弹
       p.hop = Math.max(0, p.hop - dt * 3.4);
 
-      // 开火
+      // 开火（眩晕时停火）
       p.fireCd -= dt;
-      if (p.fireCd <= 0) {
+      if (p.fireCd <= 0 && this.debuffs.stun <= 0) {
         this.playerFire();
         const wcd = this.weapon ? this.weapon.cdMul : 1;
         const boostCd = this.fireBoostT > 0 ? 0.68 : 1;
@@ -499,7 +509,9 @@
         // 秋收铃：满屏秋果飞向自己 + 短时间大范围拾取 + 回一格血
         this.magnetT = 5;
         p.hp = Math.min(p.maxHp, p.hp + 1);
-        this.float(p.x, p.y - 34, "丰收 + 回血", "#e8b45f");
+        const cleared = this.clearDebuffs();
+        this.float(p.x, p.y - 34, cleared ? "丰收 + 净化" : "丰收 + 回血", "#e8b45f");
+        if (cleared && NA.sound && NA.sound.cleanse) NA.sound.cleanse();
         for (let i = 0; i < 26; i++) {
           const a = (i / 26) * Math.PI * 2;
           this.particles.push({
@@ -639,7 +651,11 @@
           e.y += e.vy * sdt;
         }
 
-        if (e.y > H + 60) { this.enemies.splice(i, 1); continue; }
+        if (e.y > H + 60) {
+          this.onEnemyEscape(e);
+          this.enemies.splice(i, 1);
+          continue;
+        }
 
         // 撞机
         if (p.invuln <= 0 && circleRect(p.x, p.y, PLAYER_R, e)) {
@@ -796,7 +812,8 @@
       const w = this.weapon || NA.weapons.get("page");
       const dmg = 1 * (1 + 0.12 * p.power) * w.dmgMul;
       const boost = this.fireBoostT > 0 ? 2 : 0;
-      const count = Math.max(1, Math.min(3 + Math.floor(p.power * 1.1), 7) + w.countAdd + boost);
+      const weak = this.debuffs.weak > 0 ? 2 : 0;
+      const count = Math.max(1, Math.min(3 + Math.floor(p.power * 1.1), 7) + w.countAdd + boost - weak);
       const halfArc = (0.12 + 0.075 * p.power) * w.arcMul;   // 升级越宽
       const aoe = w.aoeMul > 0 ? (20 + p.power * 11) * w.aoeMul : 0;
       const baseSpeed = BULLET_SPEED * w.speedMul;
@@ -929,6 +946,71 @@
         if (idx >= 0) this.enemies.splice(idx, 1);
         this.shake = Math.max(this.shake, isBoss ? 20 : 4);
       }
+    }
+
+    /* ---------------- 负面 buff / 漏怪惩罚 ---------------- */
+    tickDebuffs(dt) {
+      const keys = Object.keys(this.debuffs);
+      for (const k of keys) {
+        this.debuffs[k] -= dt;
+        if (this.debuffs[k] <= 0) delete this.debuffs[k];
+      }
+    }
+
+    debuffList() {
+      const defs = (this.cfg.debuffs && this.cfg.debuffs.defs) || {};
+      return Object.keys(this.debuffs).map((k) => ({
+        key: k,
+        name: (defs[k] && defs[k].name) || k,
+        icon: (defs[k] && defs[k].icon) || "•",
+        color: (defs[k] && defs[k].color) || "#888",
+        t: Math.max(0, this.debuffs[k])
+      }));
+    }
+
+    applyDebuff(key) {
+      const cfgD = this.cfg.debuffs;
+      if (!cfgD || !cfgD.enabled) return false;
+      const def = cfgD.defs && cfgD.defs[key];
+      if (!def) return false;
+      // 数量上限：满了就不再叠加新的
+      if (Object.keys(this.debuffs).length >= (cfgD.stackLimit || 3) && !this.debuffs[key]) return false;
+      this.debuffs[key] = Math.max(this.debuffs[key] || 0, def.dur);
+      this.float(this.player.x, this.player.y - 46, def.name + "!", def.color);
+      return true;
+    }
+
+    clearDebuffs() {
+      const n = Object.keys(this.debuffs).length;
+      this.debuffs = {};
+      return n;
+    }
+
+    onEnemyEscape(e) {
+      const D = this.cfg.debuffs;
+      if (!D || !D.enabled) return;
+      this.escapeCount++;
+      const isElite = ["tank", "crow", "scarecrow", "chestnut", "gunner"].indexOf(e.type) >= 0;
+      // 精英怪：扣血 + 必上 debuff；普通怪：随机二选一
+      let dmg = isElite ? (D.escapeDamage || 1) + (D.eliteExtraDamage || 0) : (D.escapeDamage || 1);
+      const chance = isElite ? (D.eliteDebuffChance != null ? D.eliteDebuffChance : 1) : (D.escapeDebuffChance != null ? D.escapeDebuffChance : 0.55);
+      const wantDebuff = isElite ? true : Math.random() < chance;
+      if (wantDebuff) dmg = 0; // 上了 debuff 就不再同时扣血（避免双重惩罚过狠）
+
+      if (dmg > 0) {
+        this.hurtPlayer(dmg);
+        this.float(W / 2, H - 150, "漏怪 -" + dmg + " 血", "#c25b4a");
+      } else {
+        // 精英怪漏掉必定眩晕（够疼且短，不至于失控）；普通怪随机上 debuff
+        const pool = isElite
+          ? ["stun"]
+          : (e.type === "squirrel" ? ["slow", "weak"] : ["slow", "weak", "blur"]);
+        const key = U.pick(pool);
+        this.applyDebuff(key);
+      }
+      this.shake = Math.max(this.shake, isElite ? 6 : 3);
+      if (NA.sound && NA.sound.debuff) NA.sound.debuff();
+      this.emitHud();
     }
 
     hurtPlayer(dmg) {
@@ -1175,6 +1257,33 @@
       if (this.hitFlash > 0) {
         ctx.fillStyle = "rgba(229,84,60," + this.hitFlash * 0.55 + ")";
         ctx.fillRect(0, 0, W, H);
+      }
+
+      // 墨障：半透明墨色晕染 + 边缘暗角，干扰视野但不致盲
+      if (this.debuffs.blur > 0) {
+        const a = Math.min(0.18, this.debuffs.blur * 0.055);
+        ctx.save();
+        ctx.fillStyle = "rgba(46,38,30," + a + ")";
+        ctx.fillRect(0, 0, W, H);
+        const grad = ctx.createRadialGradient(W/2, H*0.42, H*0.2, W/2, H*0.42, H*0.66);
+        grad.addColorStop(0, "rgba(40,32,24,0)");
+        grad.addColorStop(1, "rgba(30,24,18,0.38)");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+        ctx.restore();
+      }
+
+      // 眩晕：屏幕四角闪动的小星，提示"动不了"
+      if (this.debuffs.stun > 0) {
+        ctx.save();
+        ctx.globalAlpha = 0.5 + Math.sin(this.time * 20) * 0.25;
+        ctx.fillStyle = "#e8b45f";
+        ctx.font = "bold 18px sans-serif";
+        ctx.textAlign = "center";
+        [ [40,80], [W-40,80], [40,H-80], [W-40,H-80] ].forEach(function(q){
+          ctx.fillText("✶", q[0], q[1]);
+        });
+        ctx.restore();
       }
 
       if (this.banner) this.drawBanner(ctx);

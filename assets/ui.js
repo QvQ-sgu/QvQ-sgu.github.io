@@ -166,6 +166,20 @@
     }
     $("hudShield").innerHTML = pips || '<span class="hud-none">NONE</span>';
 
+    // 负面 buff 显示：图标 + 剩余秒数
+    const bar = $("debuffBar");
+    if (bar) {
+      const list = snap.debuffs || [];
+      if (list.length) {
+        bar.innerHTML = list.map((d) =>
+          '<span class="debuff-chip" style="--dc:' + d.color + '" title="' + d.name + '">' +
+          '<i>' + d.icon + '</i><em>' + d.name + '</em><b>' + d.t.toFixed(1) + 's</b></span>'
+        ).join("");
+      } else {
+        bar.innerHTML = "";
+      }
+    }
+
     $("stageLabel").textContent = "LEVEL " + U.pad2(snap.level) + " · " + snap.levelName;
     $("stageTime").textContent = U.fmtTime((snap.runTime || 0) * 1000);
 
@@ -372,6 +386,8 @@
     game.setDifficulty(difficulty);
     game.start();
     renderHud(game.snapshot());
+    // 开局强制全屏：必须在用户手势内同步调用，失败则静默退回窗口
+    if (cfg.game.autoFullscreen !== false && NA.fullscreen) NA.fullscreen.enter();
   }
 
   function handleState(state, snap) {

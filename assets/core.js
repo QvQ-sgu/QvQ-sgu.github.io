@@ -26,6 +26,7 @@ window.SITE_CONFIG = {
     defaultDifficulty: "normal",   // easy | normal | hard
     sound: true,                   // 默认开音效
     autoFire: true,                // 手机端自动开火
+    autoFullscreen: true,          // 开局自动进入全屏（失败会静默退回窗口）
     invincibleDebug: false         // 调试用，正式上线保持 false
   },
 
@@ -56,7 +57,23 @@ window.SITE_CONFIG = {
     { id: "shield", name: "护罩", max: 4, base: 100, step: 80,  desc: "多一层盾，一会儿没挨打就自己长回来" },
     { id: "engine", name: "草鞋", max: 4, base: 90,  step: 70,  desc: "跑得更快，掉的东西也吸得更远" },
     { id: "drone",  name: "布偶",     max: 2, base: 260, step: 200, desc: "布偶跟着你一起打" }
-  ]
+  ],
+
+  // ===== 负面 buff / 漏怪惩罚（数值都在这里调）=====
+  debuffs: {
+    enabled: true,                 // 总开关
+    escapeDamage: 1,               // 普通怪漏掉扣血
+    eliteExtraDamage: 1,           // 精英怪漏掉额外扣血
+    escapeDebuffChance: 0.55,      // 普通怪漏掉施加 debuff 的概率
+    eliteDebuffChance: 1.0,        // 精英怪必上 debuff
+    stackLimit: 3,                 // 最多同时挂几种 debuff
+    defs: {
+      slow:  { name: "迟缓", dur: 4.0, color: "#6a8fa8", icon: "◈", desc: "移速 -35%" },
+      weak:  { name: "虚弱", dur: 5.0, color: "#9a7fa8", icon: "◇", desc: "弹数 -2" },
+      stun:  { name: "眩晕", dur: 0.7, color: "#c25b4a", icon: "✶", desc: "短暂无法移动" },
+      blur:  { name: "墨障", dur: 4.0, color: "#7a725f", icon: "◐", desc: "视野受干扰" }
+    }
+  }
 };
 
 
@@ -382,6 +399,15 @@ window.SITE_CONFIG = {
           tone("sawtooth", 220, 160, d, 0.2, 0.16);
           tone("square", 110, 90, d, 0.22, 0.08);
         });
+      },
+      debuff() {              // 负面 buff：不祥的下滑音
+        if (!enabled || !ensure()) return;
+        tone("sawtooth", 300, 120, 0, 0.28, 0.13);
+        tone("triangle", 150, 80, 0.05, 0.24, 0.08);
+      },
+      cleanse() {             // 秋收铃净化：清亮上扬
+        if (!enabled || !ensure()) return;
+        [660, 990, 1320].forEach((f, i) => tone("sine", f, f * 1.02, i * 0.05, 0.3, 0.09));
       }
     };
   })();
@@ -583,17 +609,22 @@ window.SITE_CONFIG = {
   (function bindFullscreen() {
     const btn = document.getElementById("fullBtn");
     const cab = document.querySelector(".cabinet");
-    if (!btn || !cab) return;
-    const toggle = () => {
-      const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
-      if (!fsEl) {
-        const req = cab.requestFullscreen || cab.webkitRequestFullscreen;
-        if (req) { const p = req.call(cab); if (p && p.catch) p.catch(() => {}); }
-      } else {
-        const exit = document.exitFullscreen || document.webkitExitFullscreen;
-        if (exit) { const p = exit.call(document); if (p && p.catch) p.catch(() => {}); }
-      }
+    const isFullscreen = () => !!(document.fullscreenElement || document.webkitFullscreenElement);
+    const enter = () => {
+      if (!cab || isFullscreen()) return;
+      const req = cab.requestFullscreen || cab.webkitRequestFullscreen;
+      if (!req) return;                       // 不支持全屏（如 iOS Safari）就静默跳过
+      const p = req.call(cab);
+      if (p && p.catch) p.catch(() => {});    // 被浏览器拒绝时退回窗口模式，不打断游戏
     };
+    const exit = () => {
+      const fn = document.exitFullscreen || document.webkitExitFullscreen;
+      if (fn) { const p = fn.call(document); if (p && p.catch) p.catch(() => {}); }
+    };
+    // 供开局自动全屏调用
+    NA.fullscreen = { enter, exit, isFullscreen };
+    if (!btn || !cab) return;
+    const toggle = () => { isFullscreen() ? exit() : enter(); };
     btn.addEventListener("click", toggle);
     window.addEventListener("keydown", (e) => {
       if (e.key !== "f" && e.key !== "F") return;

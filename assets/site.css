@@ -1557,3 +1557,41 @@ body:has(.keys-modal.show) .tabbar { display: none; }
 .theme-swatch .sw-txt { display: flex; flex-direction: column; line-height: 1.25; }
 .theme-swatch .sw-txt b { font-weight: 700; }
 .theme-swatch .sw-txt small { font-size: 10px; color: var(--ink-mute); }
+
+/* ===== 负面 buff 显示条（画布内绝对定位） ===== */
+.debuff-bar {
+  position: absolute;
+  left: 8px; right: 8px; top: 8px;
+  z-index: 6;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  pointer-events: none;
+}
+.debuff-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px 2px 5px;
+  background: rgba(30, 24, 18, 0.72);
+  border: 1px solid var(--dc, #888);
+  border-radius: 6px;
+  color: #fff6e6;
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 1.4;
+  box-shadow: 0 2px 6px rgba(0,0,0,.28);
+  animation: debuffPop .22s ease-out;
+}
+.debuff-chip i {
+  font-style: normal;
+  color: var(--dc, #fff);
+  font-size: 13px;
+  line-height: 1;
+}
+.debuff-chip b { font-weight: 700; opacity: .92; }
+@keyframes debuffPop {
+  from { transform: scale(.6) translateY(-4px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+.debuff-chip em { font-style: normal; opacity: .85; font-family: var(--sans); }
